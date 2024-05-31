@@ -13,6 +13,10 @@ public:
 class Router : public Node {
 protected:
   std::vector<RoutingEntry> routingTable_;
+private:
+  int indexDestRoute(Address dest);
+public:
+  void send(Packet *packet);
 };
 
 #endif

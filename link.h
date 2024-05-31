@@ -19,6 +19,9 @@ private:
   Node *other(const Node *node) const {
     return node == nodeA_ ? nodeB_ : nodeA_;
   }
+  
+public:
+  void send(Packet *packet, Node *fromNode);
 };
 
 #endif

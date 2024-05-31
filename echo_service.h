@@ -12,6 +12,7 @@ class EchoService : public Service {
 
 private:
   EchoService(Host *host, short port) : Service(host, port) {}
+  void service(Packet* packet);
 };
 
 #endif

@@ -25,6 +25,8 @@ public:
 
   // 링크를 랜덤으로 하나 선택하여 패킷을 전송한다.
   void send(Packet *packet);
+  Service* getService(short port);
+  int nextServicePort();
 };
 
 #endif
