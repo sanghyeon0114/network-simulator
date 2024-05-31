@@ -52,6 +52,7 @@ private:
   short srcPort_;
   short destPort_;
   std::vector<char> data_;
+  virtual std::string name() override { return "Packet"; }
 };
 
 #endif

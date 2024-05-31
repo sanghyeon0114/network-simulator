@@ -14,9 +14,10 @@ class Router : public Node {
 protected:
   std::vector<RoutingEntry> routingTable_;
 private:
+  virtual std::string name() override { return "Router"; }
   int indexDestRoute(Address dest);
 public:
-  void send(Packet *packet);
+  virtual void send(Packet *packet) override;
 };
 
 #endif

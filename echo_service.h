@@ -12,7 +12,8 @@ class EchoService : public Service {
 
 private:
   EchoService(Host *host, short port) : Service(host, port) {}
-  void service(Packet* packet);
+  virtual std::string name() override { return "EchoService"; }
+  virtual void service(Packet* packet) override;
 };
 
 #endif

@@ -68,4 +68,4 @@ service_installer.o: service_installer.cpp service_installer.h
 	$(CC) $(CFLAGS) -c -o service_installer.o service_installer.cpp
 
 clean:
-	rm -f *.o first second
+	rm -f *.o first second third forth

@@ -17,7 +17,7 @@ private:
   Node *nodeA_;
   Node *nodeB_;
   double delay_;
-
+  virtual std::string name() override { return "Link"; }
 public:
   double delay() { return delay_; }
 
