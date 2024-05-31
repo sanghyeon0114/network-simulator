@@ -1,6 +1,6 @@
 CC = g++
 CFLAGS = -g -Wall -Werror -std=c++11
-OBJECTS = simulator.o object.o echo_service_installer.o message_service_installer.o echo_service.o message_service.o manual_router.o host.o node.o link.o router.o link_installer.o service_installer.o
+OBJECTS = simulator.o object.o echo_service_installer.o message_service_installer.o echo_service.o message_service.o manual_router.o host.o node.o link.o router.o link_installer.o service_installer.o bulk_send_service_installer.o packet_sink_service_installer.o
 
 all: first second third forth
 
@@ -66,6 +66,12 @@ link_installer.o: link_installer.cpp link_installer.h
 
 service_installer.o: service_installer.cpp service_installer.h
 	$(CC) $(CFLAGS) -c -o service_installer.o service_installer.cpp
+
+bulk_send_service_installer.o: bulk_send_service_installer.cpp bulk_send_service_installer.cpp
+	$(CC) $(CFLAGS) -c -o bulk_send_service_installer.o bulk_send_service_installer.cpp
+
+packet_sink_service_installer.o: packet_sink_service_installer.cpp packet_sink_service_installer.cpp
+	$(CC) $(CFLAGS) -c -o packet_sink_service_installer.o packet_sink_service_installer.cpp
 
 clean:
 	rm -f *.o first second third forth

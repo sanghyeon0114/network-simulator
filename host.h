@@ -15,7 +15,7 @@ private:
 
   // 설치된 서비스 목록
   std::vector<Service *> services_;
-
+  virtual std::string name() override { return "Host"; }
 public:
   Address address() { return address_; }
   Host(Address address) : address_(address) {}
@@ -25,7 +25,7 @@ public:
   void initialize();
 
   // 링크를 랜덤으로 하나 선택하여 패킷을 전송한다.
-  void send(Packet *packet);
+  virtual void send(Packet *packet) override;
   Service* getService(short port);
   int nextServicePort();
 };
