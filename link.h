@@ -18,6 +18,7 @@ private:
   Node *nodeB_;
   double delay_;
   virtual std::string name() override { return "Link"; }
+  void log(std::string message) { Object::log(message); }
 public:
   double delay() { return delay_; }
 
@@ -31,6 +32,8 @@ public:
   }
 
   void send(Packet *packet, Node *fromNode);
+
+  std::string toString() { return Object::toString(); }
 };
 
 #endif

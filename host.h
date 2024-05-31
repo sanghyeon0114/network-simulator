@@ -16,6 +16,7 @@ private:
   // 설치된 서비스 목록
   std::vector<Service *> services_;
   virtual std::string name() override { return "Host"; }
+  void log(std::string message) { Node::log(message); }
 public:
   Address address() { return address_; }
   Host(Address address) : address_(address) {}

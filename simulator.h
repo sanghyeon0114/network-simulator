@@ -22,9 +22,9 @@ public:
   Schedule(double time, std::function<void()> function)
       : time_(time), function_(function) {}
 
-  bool operator<(const Schedule s) const {
-        return this->time_ > s.time_;
-    }
+  bool operator<(const Schedule &s) const {
+    return this->time_ > s.time_;
+  }
 };
 
 class Simulator {
@@ -47,6 +47,7 @@ public:
     // 모든 스케줄을 실행한다.
     for (; !events.empty(); events.pop()) {
       Schedule s = events.top();
+      time_ = s.time();
       s.call();
     }
   }

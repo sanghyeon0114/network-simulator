@@ -11,17 +11,16 @@ int Router::indexDestRoute(Address dest) {
 }
 
 void Router::send(Packet *packet) {
-    std::string from = packet->srcAddress().toString();
-    std::string to = packet->destAddress().toString();
-    std::string dataLength = std::to_string(packet->dataString().size());
+    std::string packetId = packet->toString();
 
     int routingTableIndex = Router::indexDestRoute(packet->destAddress());
     if(routingTableIndex == -1) {
-        std::cout << "Router #" << id() << ": no route for packet (from: " << from << ", to: " << to << ", " << dataLength << " bytes)" << std::endl;
+        log("no route for packet: " + packetId);
         delete packet;
         return;
     }
-
-    std::cout << "Router #" << id() << ": forwarding packet (from: " << from << ", to: " << to << ", " << dataLength << " bytes)" << std::endl;
-    routingTable_[routingTableIndex].nextLink->send(packet, this);
+    Link *nextLink = routingTable_[routingTableIndex].nextLink;
+    std::string linkId = nextLink->toString();
+    log("forwarding packet: " + packetId + " to " + linkId);
+    nextLink->send(packet, this);
 }

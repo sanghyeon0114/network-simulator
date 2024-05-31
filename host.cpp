@@ -4,7 +4,11 @@
 #include <string>
 
 Host::~Host() {
+<<<<<<< HEAD
     for(size_t i = 0; i < services_.size(); i++) {
+=======
+    for(int i = 0; i < services_.size(); i++) {
+>>>>>>> 6f0bb0e (버그 수정)
         delete services_[i];
     }
     services_.clear();
@@ -18,20 +22,21 @@ void Host::send(Packet *packet) {
     std::string from = packet->srcAddress().toString();
     std::string to = packet->destAddress().toString();
     std::string dataLength = std::to_string(packet->dataString().size());
+    std::string packetId = packet->toString();
 
     if(address_ == packet->srcAddress()) {
-        std::cout << "Host #" << id() << ": sending packet (from: " << from << ", to: " << to << ", " << dataLength << " bytes)" << std::endl;
+        log("sending packet: " + packetId);
 
         size_t linkTableSize = linkTable().size();
         linkTable()[rand() % linkTableSize]->send(packet, this);
     } else if(address_ == packet->destAddress()) {
         Service* service = Host::getService(packet->destPort());
-        std::cout << "Host #" << id() << ": received packet, destination port: " << packet->destPort() << std::endl;
         if(service == nullptr) {
-            std::cout << "Host #" << id() << ": no service for packet (from: " << from << ", to: " << to << ", " << dataLength << " bytes)" << std::endl;
+            log("no service for packet: " + packetId);
             delete packet;
             return;
         }
+        log("received packet: " + packetId + ", forwarding to " + service->toString());
         service->service(packet);
     }
     

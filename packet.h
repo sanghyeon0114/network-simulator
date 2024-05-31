@@ -46,6 +46,8 @@ public:
     return str;
   }
 
+  std::string toString() { return Object::toString(); }
+
 private:
   Address srcAddress_;
   Address destAddress_;
