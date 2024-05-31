@@ -2,5 +2,7 @@
 *.exe
 first
 second
+third
+forth
 main
 .vscode
