@@ -3,6 +3,13 @@
 #include <random>
 #include <string>
 
+Host::~Host() {
+    for(size_t i = 0; i < services_.size(); i++) {
+        delete services_[i];
+    }
+    services_.clear();
+}
+
 void Host::initialize() {
     // not need
 }
@@ -31,7 +38,7 @@ void Host::send(Packet *packet) {
 }
 
 Service* Host::getService(short port) {
-    for(int i = 0; i < services_.size(); i++) {
+    for(size_t i = 0; i < services_.size(); i++) {
         if(services_[i]->getPort() == port) {
             return services_[i];
         }

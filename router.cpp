@@ -2,7 +2,7 @@
 #include <iostream>
 
 int Router::indexDestRoute(Address dest) {
-    for(int i = 0; i < routingTable_.size(); i++) {
+    for(size_t i = 0; i < routingTable_.size(); i++) {
         if(routingTable_[i].destination == dest) {
             return i;
         }
