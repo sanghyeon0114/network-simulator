@@ -37,7 +37,7 @@ void calculate(const std::vector<Node *> &nodes, const std::vector<Link *> &link
 
     // distance, getNode, getLink 해시맵 초기화
     for(int i = 0; i < size; i++) {
-        distance[nodes[i]->id()] = INT_MAX;
+        distance[nodes[i]->id()] = std::numeric_limits<int>::max();
         getLink[nodes[i]->id()] = nullptr;
         getNode[nodes[i]->id()] = nodes[i];
     }

@@ -4,11 +4,7 @@
 #include <string>
 
 Host::~Host() {
-<<<<<<< HEAD
     for(size_t i = 0; i < services_.size(); i++) {
-=======
-    for(int i = 0; i < services_.size(); i++) {
->>>>>>> 6f0bb0e (버그 수정)
         delete services_[i];
     }
     services_.clear();
