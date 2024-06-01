@@ -42,9 +42,8 @@ void calculate(const std::vector<Node *> &nodes, const std::vector<Link *> &link
         getNode[nodes[i]->id()] = nodes[i];
     }
     
-    std::priority_queue<Distance> pq;
-    
     distance[this->id()] = 0;
+    std::priority_queue<Distance> pq;
 
     for (Link* link : this->linkTable()) {
             pq.push(Distance(link->delay(), link->other(this), link));
@@ -59,7 +58,7 @@ void calculate(const std::vector<Node *> &nodes, const std::vector<Link *> &link
 
         if(distance[tmpNode->id()] <= tmpDistance) {
             continue;
-        } 
+        }
 
         distance[tmpNode->id()] = tmpDistance;
         getLink[tmpNode->id()] = tmpLink;

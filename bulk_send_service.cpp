@@ -14,5 +14,5 @@ void BulkSendService::send(Host *host, Address destAddress, short destPort) {
 }
 
 void BulkSendService::service(Packet* packet) {
-    // no need.
+    delete packet;
 }
