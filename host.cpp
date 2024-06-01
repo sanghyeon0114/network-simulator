@@ -28,7 +28,7 @@ void Host::send(Packet *packet) {
         log("sending packet: " + packetId);
 
         size_t linkTableSize = linkTable().size();
-        linkTable()[rand() % linkTableSize]->send(packet, this);
+        linkTable()[rand() % linkTableSize]->receive(packet, this);
     } else if(address_ == packet->destAddress()) {
         Service* service = Host::getService(packet->destPort());
         if(service == nullptr) {

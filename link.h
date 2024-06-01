@@ -31,6 +31,7 @@ public:
     return node == nodeA_ ? nodeB_ : nodeA_;
   }
 
+  void receive(Packet *packet, Node *fromNode);
   void send(Packet *packet, Node *fromNode);
 
   std::string toString() { return Object::toString(); }

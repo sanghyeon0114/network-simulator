@@ -22,5 +22,5 @@ void Router::send(Packet *packet) {
     Link *nextLink = routingTable_[routingTableIndex].nextLink;
     std::string linkId = nextLink->toString();
     log("forwarding packet: " + packetId + " to " + linkId);
-    nextLink->send(packet, this);
+    nextLink->receive(packet, this);
 }
