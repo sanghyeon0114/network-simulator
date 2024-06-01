@@ -13,14 +13,14 @@
 #include <vector>
 
 struct Distance {
-    int distance_;
+    double delay_;
     Node *node_;
     Link *link_;
 
-    Distance(int distance, Node *node, Link *link) : distance_(distance), node_(node), link_(link) {}
+    Distance(double delay, Node *node, Link *link) : delay_(delay), node_(node), link_(link) {}
 
     bool operator<(const Distance &s) const {
-        return this->distance_ > s.distance_;
+        return this->delay_ > s.delay_;
     }
 };
 
@@ -28,64 +28,54 @@ class AutoRouter : public Router {
 private:
     virtual std::string name() override { return "AutoRouter"; }
 public:
-void calculate(const std::vector<Node *> &nodes, const std::vector<Link *> &links) {
-    int size = nodes.size();
+    void calculate(const std::vector<Node *> &nodes, const std::vector<Link *> &links) {
+        std::map<Node*, double> delayMap;
+        std::map<Node*, Link*> linkMap;
     
-    std::map<int, int> distance;
-    std::map<int, Link *> getLink;
-    std::map<int, Node *> getNode;
-
-    // distance, getNode, getLink 해시맵 초기화
-    for(int i = 0; i < size; i++) {
-        distance[nodes[i]->id()] = std::numeric_limits<int>::max();
-        getLink[nodes[i]->id()] = nullptr;
-        getNode[nodes[i]->id()] = nodes[i];
-    }
-    
-    distance[this->id()] = 0;
-    std::priority_queue<Distance> pq;
-
-    for (Link* link : this->linkTable()) {
-            pq.push(Distance(link->delay(), link->other(this), link));
+        for(auto& node: nodes) {
+            delayMap[node] = std::numeric_limits<double>::infinity();
+            linkMap[node] = nullptr;
         }
 
-    while(!pq.empty()) {
-        Distance tmp = pq.top();
-        pq.pop();
-        int tmpDistance = tmp.distance_;
-        Node* tmpNode = tmp.node_;
-        Link* tmpLink = tmp.link_;
+        delayMap[this] = 0.0;
 
-        if(distance[tmpNode->id()] <= tmpDistance) {
-            continue;
+        std::priority_queue<Distance> pq;
+
+        for(auto& link: this->linkTable()) {
+            Node* other = link->other(this);
+            delayMap[other] = link->delay();
+            linkMap[other] = link;
+            pq.push(Distance(delayMap[other], other, linkMap[other]));
         }
+    
+        while(!pq.empty()) {
+            Distance tmp = pq.top();
+            pq.pop();
 
-        distance[tmpNode->id()] = tmpDistance;
-        getLink[tmpNode->id()] = tmpLink;
+            for(auto& link: tmp.node_->linkTable()) {
+                double totalDelay = tmp.delay_ + link->delay();
+                Node* tmpLinkOther = link->other(tmp.node_);
 
-        for(Link* link : tmpNode->linkTable()) {
-            Node *other = link->other(tmpNode);
-            int otherDistance = tmpDistance + link->delay();
-            if(distance[other->id()] > otherDistance) {
-                pq.push(Distance(otherDistance, other, tmpLink));
+                if(delayMap[tmpLinkOther] > totalDelay) {
+                    delayMap[tmpLinkOther] = totalDelay;
+                    linkMap[tmpLinkOther] = tmp.link_; // first link in shortest path.
+                    pq.push(Distance(delayMap[tmpLinkOther], tmpLinkOther, linkMap[tmpLinkOther]));
+                }   
             }
         }
-    }
 
-    routingTable_.clear();
-    for(auto iter: distance) {
-        int id = iter.first;
-        Node *node = getNode[id];
-        Link *link = getLink[id];
-
-        if(link != nullptr) {
-            if(Host *host = dynamic_cast<Host *>(node)) {
-                RoutingEntry routingEntry = {host->address(), link};
-                this->routingTable_.push_back(routingEntry);
+        this->routingTable_.clear();
+        for(auto& iter: linkMap) {
+            Node* node = iter.first;
+            Link* link = iter.second;
+            if(link == nullptr || node == this) {
+                continue;
             }
+            if(Host* host = dynamic_cast<Host*>(node)) {
+                this->routingTable_.push_back({host->address(), link});
+            } 
         }
     }
-}
 };
 
 #endif
