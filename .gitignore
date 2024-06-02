@@ -1,8 +1,8 @@
 *.o
-*.exe
-first
-second
-third
-forth
-main
+/*.exe
+/first
+/second
+/third
+/forth
+/main
 .vscode

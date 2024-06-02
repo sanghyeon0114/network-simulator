@@ -80,4 +80,4 @@ packet_sink_service.o: packet_sink_service.cpp packet_sink_service.h
 	$(CC) $(CFLAGS) -c -o packet_sink_service.o packet_sink_service.cpp
 
 clean:
-	rm -f *.o first second third forth
+	rm -f *.o *.exe first second third forth
