@@ -4,7 +4,7 @@ BulkSendService *BulkSendServiceInstaller::install(Host *host, Address destinati
     BulkSendService *bulkSendService = new BulkSendService(host, destination, host->nextServicePort(), delay, startTime, stopTime);
     ServiceInstaller::install(host, bulkSendService);
 
-    for(double time = startTime; time <= stopTime; time+=delay) {
+    for(double time = startTime; time < stopTime; time+=delay) {
         Simulator::schedule(time, [bulkSendService, host, destination, destPort]() {
             bulkSendService->send(host, destination, destPort);
         });
