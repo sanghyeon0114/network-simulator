@@ -1,8 +1,8 @@
 CC = g++
 CFLAGS = -g -Wall -Werror -std=c++11
-OBJECTS = simulator.o object.o echo_service_installer.o message_service_installer.o echo_service.o message_service.o manual_router.o host.o node.o link.o router.o link_installer.o service_installer.o bulk_send_service_installer.o bulk_send_service.o packet_sink_service_installer.o packet_sink_service.o
+OBJECTS = simulator.o object.o echo_service_installer.o message_service_installer.o echo_service.o message_service.o manual_router.o host.o node.o link.o router.o link_installer.o service_installer.o bulk_send_service_installer.o bulk_send_service.o packet_sink_service_installer.o packet_sink_service.o firewall.o nat.o
 
-all: first second third forth
+all: first second third forth fifth sixth
 
 first: first.o $(OBJECTS)
 	$(CC) $(CFLAGS) -o first first.o $(OBJECTS)
@@ -16,6 +16,12 @@ third: third.o $(OBJECTS)
 forth: forth.o $(OBJECTS)
 	$(CC) $(CFLAGS) -o forth forth.o $(OBJECTS)
 
+fifth: fifth.o $(OBJECTS)
+	$(CC) $(CFLAGS) -o fifth fifth.o $(OBJECTS)
+
+sixth: sixth.o $(OBJECTS)
+	$(CC) $(CFLAGS) -o sixth sixth.o $(OBJECTS)
+
 first.o: scenarios/first.cpp
 	$(CC) $(CFLAGS) -c scenarios/first.cpp
 
@@ -27,6 +33,12 @@ third.o: scenarios/third.cpp
 
 forth.o: scenarios/forth.cpp
 	$(CC) $(CFLAGS) -c scenarios/forth.cpp
+
+fifth.o: scenarios/fifth.cpp
+	$(CC) $(CFLAGS) -c scenarios/fifth.cpp
+
+sixth.o: scenarios/sixth.cpp
+	$(CC) $(CFLAGS) -c scenarios/sixth.cpp
 
 simulator.o: simulator.cpp
 	$(CC) $(CFLAGS) -c simulator.cpp
@@ -78,6 +90,12 @@ packet_sink_service_installer.o: packet_sink_service_installer.cpp packet_sink_s
 
 packet_sink_service.o: packet_sink_service.cpp packet_sink_service.h
 	$(CC) $(CFLAGS) -c -o packet_sink_service.o packet_sink_service.cpp
+
+firewall.o: firewall.cpp firewall.h
+	$(CC) $(CFLAGS) -c -o firewall.o firewall.cpp
+
+nat.o: nat.cpp nat.h
+	$(CC) $(CFLAGS) -c -o nat.o nat.cpp
 
 clean:
 	rm -f *.o *.exe first second third forth

@@ -15,8 +15,8 @@ int main() {
 
   std::vector<Host *> hosts;
   std::vector<Node *> nodes;
-  Host *bulkSendHost = new Host(CLIENT_ADDRESS);
-  Host *packetSinkHost = new Host(SERVER_ADDRESS);
+  Host *bulkSendHost = new Host(Address(CLIENT_ADDRESS));
+  Host *packetSinkHost = new Host(Address(SERVER_ADDRESS));
 
   hosts.push_back(bulkSendHost);
   hosts.push_back(packetSinkHost);

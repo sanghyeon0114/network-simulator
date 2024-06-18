@@ -23,7 +23,7 @@ public:
   ~Host();
   
   // 호스트와 설치된 서비스를 전부 초기화한다.
-  void initialize();
+  virtual void initialize() override;
 
   // 링크를 랜덤으로 하나 선택하여 패킷을 전송한다.
   virtual void send(Packet *packet) override;
