@@ -1,3 +1,6 @@
+#ifndef NAT_H
+#define NAT_H
+
 #include "address.h"
 #include "host.h"
 #include "link.h"
@@ -24,9 +27,12 @@ private:
   Packet* convertInternalToExternalPacket(Packet* packet, short ExternalPort);
   Link* getProperLink(Packet* packet);
 public:
+  Address address() { return address_; }
   Nat(Address address) : address_(address) {}
   void setWanLink(Link *link) { wanLink_ = link; }
   virtual void send(Packet* packet, Link* link = nullptr) override;
 
   static short getNewPort();
 };
+
+#endif // NAT_H

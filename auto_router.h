@@ -5,6 +5,7 @@
 #include "link.h"
 #include "router.h"
 #include "service.h"
+#include "nat.h"
 #include <algorithm>
 #include <limits>
 #include <map>
@@ -73,6 +74,8 @@ public:
             }
             if(Host* host = dynamic_cast<Host*>(node)) {
                 this->routingTable_.push_back({host->address(), link});
+            } else if(Nat* nat = dynamic_cast<Nat*>(node)) {
+                this->routingTable_.push_back({nat->address(), link});
             } 
         }
     }
