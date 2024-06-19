@@ -37,6 +37,7 @@ private:
   virtual std::string name() override { return "Firewall"; }
   ~Firewall();
   bool isAllowPacket(Packet *packet);
+  Link* getProperLink(Packet* packet);
 public:
   void setReceiveLink(Link *link) { receiveLink_ = link; }
 

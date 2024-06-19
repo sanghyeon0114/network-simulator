@@ -34,6 +34,17 @@ bool Firewall::isAllowPacket(Packet *packet) {
     return false;
 }
 
+Link* Firewall::getProperLink(Packet* packet) {
+    for(Link* l: linkTable()) {
+        if(Host* host = dynamic_cast<Host*>(l->other(this))) {
+            if(host->address() == packet->destAddress()) {
+                return l;
+            }
+        }
+    }
+    return nullptr;
+}
+
 void Firewall::send(Packet *packet, Link* link) {
     std::string packetInfo = packet->toString();
     std::string srcAddress = packet->srcAddress().toString();
@@ -49,16 +60,16 @@ void Firewall::send(Packet *packet, Link* link) {
         return;
     }
     if(isAllowPacket(packet)) {
-        for(Link* l: linkTable()) {
-            if(Host* host = dynamic_cast<Host*>(l->other(this))) {
-                if(host->address() == packet->destAddress()) {
-                    l->receive(packet, this);
-                    return;
-                }
-            }
+        Link* pl = getProperLink(packet);
+        if(pl == nullptr) {
+            log("Dropping " + packetInfo + " with src address " + srcAddress + " and dest port " + std::to_string(destPort));
+            delete packet;
+            return;
         }
+        pl->receive(packet, this);
+        return;
     } else {
         log("Dropping " + packetInfo + " with src address " + srcAddress + " and dest port " + std::to_string(destPort));
         delete packet;
     }
-};
+}
