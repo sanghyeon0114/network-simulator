@@ -35,13 +35,17 @@ bool Firewall::isAllowPacket(Packet *packet) {
 }
 
 void Firewall::send(Packet *packet, Link* link) {
+    std::string packetInfo = packet->toString();
+    std::string srcAddress = packet->srcAddress().toString();
+    short destPort = packet->destPort();
     if(link == nullptr) {
+        log("Dropping " + packetInfo + " with src address " + srcAddress + " and dest port " + std::to_string(destPort));
         delete packet;
         return;
     }
     
     if(link != receiveLink_) {
-        receiveLink_->send(packet, this);
+        receiveLink_->receive(packet, this);
         return;
     }
     if(isAllowPacket(packet)) {
@@ -54,6 +58,7 @@ void Firewall::send(Packet *packet, Link* link) {
             }
         }
     } else {
+        log("Dropping " + packetInfo + " with src address " + srcAddress + " and dest port " + std::to_string(destPort));
         delete packet;
     }
 };
