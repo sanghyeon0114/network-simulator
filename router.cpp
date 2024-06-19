@@ -10,7 +10,7 @@ int Router::indexDestRoute(Address dest) {
     return -1;
 }
 
-void Router::send(Packet *packet) {
+void Router::send(Packet *packet, Link* link) {
     std::string packetId = packet->toString();
 
     int routingTableIndex = Router::indexDestRoute(packet->destAddress());

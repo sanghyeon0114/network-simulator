@@ -18,5 +18,5 @@ void Link::send(Packet *packet, Node *otherNode) {
     std::string otherNodeId = otherNode->toString();
 
     log("packet out: " + PacketId + " to " + otherNodeId);
-    otherNode->send(packet);
+    otherNode->send(packet, this);
 }

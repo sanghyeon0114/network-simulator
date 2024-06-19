@@ -17,10 +17,13 @@ private:
   Link *wanLink_;
   std::vector<NatEntry> natTable_;
 
-  virtual std::string name() override { return "Nat"; }
+  static short nextPort_;
 
+  virtual std::string name() override { return "Nat"; }
 public:
   Nat(Address address) : address_(address) {}
   void setWanLink(Link *link) { wanLink_ = link; }
-  virtual void send(Packet* packet) override;
+  virtual void send(Packet* packet, Link* link = nullptr) override;
+
+  static int getNewPort();
 };

@@ -14,7 +14,7 @@ void Host::initialize() {
     // not need
 }
 
-void Host::send(Packet *packet) {
+void Host::send(Packet *packet, Link* link) {
     std::string from = packet->srcAddress().toString();
     std::string to = packet->destAddress().toString();
     std::string dataLength = std::to_string(packet->dataString().size());

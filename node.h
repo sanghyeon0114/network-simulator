@@ -19,7 +19,7 @@ public:
   int id() const { return id_; }
   std::vector<Link *> linkTable() { return linkTable_; }
   virtual ~Node() {};
-  virtual void send(Packet* packet) = 0;
+  virtual void send(Packet* packet, Link* link = nullptr) = 0;
   std::string toString() { return Object::toString(); }
 
 protected:
